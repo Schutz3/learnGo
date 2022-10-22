@@ -5,7 +5,6 @@ import (
 	"log"           
 	"net/http"     
 	"text/template" 
-
 	_ "mysql"
 )
 
@@ -28,7 +27,6 @@ func dbConn() (db *sql.DB) {
 }
 
 var lyt = template.Must(template.ParseGlob("layout/*"))
-
 func Index(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	selDB, err := db.Query("SELECT * FROM names ORDER BY id DESC")
@@ -48,7 +46,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		n.Name = name
 		n.Email = email
 		res = append(res, n)
-
 	}
 	lyt.ExecuteTemplate(w, "Index", res)
 	defer db.Close()
@@ -113,7 +110,6 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
-
 		insForm.Exec(name, email)
 		log.Println("INSERT: Name: " + name + " | E-mail: " + email)
 	}
